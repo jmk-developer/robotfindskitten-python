@@ -1,5 +1,6 @@
 from blessed import Terminal
-from sys import stdout
+from sys import stdout, exit
+from time import sleep
 import readchar
 import random
 import os
@@ -17,8 +18,6 @@ board_size = (32, 32)
 board_colors = [
 
 ]
-
-current_position = (0, 0)
 
 
 def vanilla_pick():
@@ -39,15 +38,12 @@ def reset():
 
 
 def goto(x, y):
-    global current_position
-    current_position = (x, y)
     stdout.write(terminal.move_xy(x, y))
 
 
 def move(x, y):
-    global current_position
-    current_position = (current_position[0] + x, current_position[1] + y)
-    stdout.write(terminal.move_xy(current_position[0], current_position[1]))
+    current_position = terminal.get_location()
+    goto(current_position[0] + x, current_position[1] + y)
 
 
 reset()
@@ -63,13 +59,16 @@ ends when robotfindskitten.
 
 Press any key to start.
 """)
+
 readchar.readchar()
 reset()
 stdout.write("robotfindskitten v1")
 stdout.write("\n\n")
 stdout.write("─" * board_size[0])
+stdout.write("\n")
+
 while True:
-    char = str(readchar.readchar(), "utf-8")
+    char = str(readchar.readchar(), "utf8")
     if char == "w":
         move(0, 1)
     elif char == "a":
@@ -78,4 +77,7 @@ while True:
         move(0, -1)
     elif char == "d":
         move(1, 0)
+    elif char == "x":
+        reset()
+        exit()
     stdout.write("#")
