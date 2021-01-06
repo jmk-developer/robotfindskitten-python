@@ -1,0 +1,11 @@
+.idea/
+__pycache__/
+*.pyc
+*.pyo
+*.bak
+*.wxg#
+*.??~
+build/
+dist/
+*.egg-info/
+tests/
