@@ -43,7 +43,7 @@ def goto(x, y):
 
 def move(x, y):
     current_position = terminal.get_location()
-    goto(current_position[0] + x, current_position[1] + y)
+    goto(current_position[1] + x, current_position[0] - y)
 
 
 reset()
@@ -69,15 +69,22 @@ stdout.write("\n")
 
 while True:
     char = str(readchar.readchar(), "utf8")
+
+    final_move = [0, 0]
     if char == "w":
-        move(0, 1)
-    elif char == "a":
-        move(-1, 0)
-    elif char == "s":
-        move(0, -1)
-    elif char == "d":
-        move(1, 0)
-    elif char == "x":
-        reset()
-        exit()
+        final_move[1] += 1
+    if char == "a":
+        final_move[0] -= 1
+    if char == "s":
+        final_move[1] -= 1
+    if char == "d":
+        final_move[0] += 1
+    if char == "x":
+        break
+
+    move(final_move[0], final_move[1])
     stdout.write("#")
+    move(-1, 0)
+
+reset()
+exit()
